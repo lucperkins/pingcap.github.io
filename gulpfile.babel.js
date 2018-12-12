@@ -25,6 +25,7 @@ gulp.task('hugo', cb => buildSite(cb))
 gulp.task('hugo-preview', cb => buildSite(cb, hugoArgsPreview))
 
 // Build/production tasks
+gulp.task('assets', ['css', 'js'])
 gulp.task('build', ['css', 'js'], cb => buildSite(cb, [], 'production'))
 gulp.task('build-preview', ['css', 'js'], cb =>
   buildSite(cb, hugoArgsPreview, 'production')

@@ -1,11 +1,14 @@
-install:
+NODE_BIN = node_modules/.bin
+GULP     = $(NODE_BIN)/gulp
+
+setup:
 	npm install
+
+assets: setup
+	$(GULP) assets
 
 submodules:
 	git submodule update --init --recursive
 
-build:
-	npm run build
-
-serve: install submodules
-	npm run start
+serve: assets
+	hugo server
