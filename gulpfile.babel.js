@@ -1,6 +1,5 @@
 import gulp from 'gulp'
 import { spawn } from 'child_process'
-import hugoBin from 'hugo-bin'
 import gutil from 'gulp-util'
 import less from 'gulp-less'
 import autoprefixer from 'gulp-autoprefixer'
@@ -16,20 +15,9 @@ console.log(`Running Gulp with ENV:${isDev ? 'development' : 'production'}`)
 
 const browserSync = BrowserSync.create()
 
-// Hugo arguments
-const hugoArgsDefault = ['-d', './dist', '-s', '.', '-v']
-const hugoArgsPreview = ['--buildDrafts', '--buildFuture']
-
-// Development tasks
-gulp.task('hugo', cb => buildSite(cb))
-gulp.task('hugo-preview', cb => buildSite(cb, hugoArgsPreview))
-
 // Build/production tasks
 gulp.task('assets', ['css', 'js'])
 gulp.task('build', ['css', 'js'], cb => buildSite(cb, [], 'production'))
-gulp.task('build-preview', ['css', 'js'], cb =>
-  buildSite(cb, hugoArgsPreview, 'production')
-)
 
 // Compile CSS with PostCSS and Minify CSS
 const buildCss = () => {
@@ -72,9 +60,10 @@ function buildJs(cb) {
 gulp.task('js', buildJs)
 
 // Development server with browsersync
-const jsTask = isDev ? ['js'] : ['js', 'hugo']
-const styleTask = isDev ? ['css'] : ['css', 'hugo']
-gulp.task('server', ['hugo', 'css', 'js'], () => {
+const jsTask = isDev ? ['js'] : ['js']
+const styleTask = isDev ? ['css'] : ['css']
+
+gulp.task('develop-assets', ['assets'], () => {
   // 初次启动的时候运行 js/css 和 build site，避免脏数据
   buildJs(buildSite)
   buildCss()
@@ -91,28 +80,4 @@ gulp.task('server', ['hugo', 'css', 'js'], () => {
 
   gulp.watch('./src/js/**/*.js', jsTask)
   gulp.watch('./src/less/**/*.less', styleTask)
-  gulp.watch('./{data,content,layouts,static}/**/*', ['hugo']) // Todo more specific monitor
 })
-
-/**
- * Run hugo and build the site
- */
-function buildSite(cb, options, environment = 'development') {
-  console.log('running build site - hugo')
-  const args = options ? hugoArgsDefault.concat(options) : hugoArgsDefault
-
-  process.env.NODE_ENV = environment
-
-  return spawn(hugoBin, args, { stdio: 'inherit' }).on('close', code => {
-    browserSync.reload()
-    cb && cb()
-
-    // if (code === 0) {
-    //   browserSync.reload();
-    //   cb();
-    // } else {
-    //   browserSync.notify("Hugo build failed :(");
-    //   cb("Hugo build failed");
-    // }
-  })
-}
