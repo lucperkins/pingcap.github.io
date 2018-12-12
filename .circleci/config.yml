@@ -23,7 +23,7 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo apt-get update && sudo apt-get install -y rsync && sudo apt-get install Python-bs4
+      - run: sudo apt-get update && sudo apt-get install -y rsync && sudo apt-get install Python-bs4 hugo
 
       # Download and cache dependencies
       - restore_cache:
@@ -42,7 +42,7 @@ jobs:
           fingerprints:
             - "1b:b6:ef:e0:fb:85:6d:8f:78:87:a6:ce:1f:34:ec:66"
 
-      - run: npm run build
+      - run: make build
 
       # notice netlify to deploy preview branch
       # when be triggered by webhook from submodule

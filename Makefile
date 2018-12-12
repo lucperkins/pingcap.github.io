@@ -12,3 +12,6 @@ submodules:
 
 serve: assets
 	hugo server
+
+build: assets
+	hugo
