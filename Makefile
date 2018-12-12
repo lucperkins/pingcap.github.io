@@ -20,5 +20,5 @@ serve:
 build: assets
 	hugo --verbose
 
-develop-all:
+develop:
 	$(CONCURRENTLY) "make serve" "make develop-assets"

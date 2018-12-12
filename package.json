@@ -22,7 +22,6 @@
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.11.6",
     "body-parser": "^1.18.3",
-    "browser-sync": "^2.24.4",
     "concurrently": "^4.1.0",
     "css-loader": "^0.28.7",
     "cssnano": "^3.10.0",
