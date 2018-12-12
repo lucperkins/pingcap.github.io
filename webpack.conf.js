@@ -20,7 +20,7 @@ export default {
     ],
   },
   output: {
-    path: path.join(__dirname, 'dist', 'js'),
+    path: path.join(__dirname, 'static', 'js'),
     publicPath: '/js/',
     filename: '[name].js',
     chunkFilename: '[name].[chunkhash:5].chunk.js',

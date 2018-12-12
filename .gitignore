@@ -1,5 +1,8 @@
 ### Project ###
 
+# Gulp.js artifacts
+static/css
+static/js/*.js
 
 ### Node ###
 

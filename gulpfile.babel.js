@@ -46,7 +46,7 @@ const buildCss = () => {
       })
     )
     .pipe(cleanCSS({ compatibility: 'ie8' }))
-    .pipe(gulp.dest('./dist/css'))
+    .pipe(gulp.dest('./static/css'))
     .pipe(browserSync.stream())
 }
 gulp.task('css', buildCss)
