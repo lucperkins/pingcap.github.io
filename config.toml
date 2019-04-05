@@ -1,7 +1,7 @@
 baseurl = "https://pingcap.com/"
 languageCode = "en-us"
 languageLang = "en"
-title = "PingCAP Site"
+title = "PingCAP.com"
 publishDir = "dist"
 # Do not make the url/path to lowercase
 disablePathToLower = true

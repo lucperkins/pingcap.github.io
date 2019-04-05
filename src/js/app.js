@@ -28,30 +28,31 @@ function processHash() {
   if (location.href.search('#access_token') < 0) {
     smoothScroll(hash)
   }
+
+  if ($('.tabs'.length)) {
+    tabCheckedInDocs()
+  }
 }
 
 // initial algolia search
-function initialSearch() {
+function initialSearch(lang) {
   docsearch({
     apiKey: 'ad5e63b76a221558bdc65ab1abbec7a2',
     indexName: 'pingcap',
     inputSelector: '#search-input',
-    debug: true, // Set debug to true if you want to inspect the dropdown
+    algoliaOptions: {
+      hitsPerPage: 50,
+      facetFilters: ['tags:' + lang],
+    },
+    debug: false, // Set debug to true if you want to inspect the dropdown
     transformData: function(hits) {
-      // filter hits
-      function isChinese(s) {
-        var pattern = /\/.*-cn\//gi
-        return pattern.exec(s)
-      }
       // filter 404 results
       function is404(h) {
         var pattern = /404/gi
         return h && h.lvl1 && pattern.exec(h.lvl1)
       }
       var filteredHits = hits.filter(function(hit) {
-        if ($('#search-input').data('lang') === 'en')
-          return !isChinese(hit.url) && !is404(hit.hierarchy)
-        else return isChinese(hit.url) && !is404(hit.hierarchy)
+        return !is404(hit.hierarchy)
       })
       return filteredHits
     },
@@ -60,13 +61,13 @@ function initialSearch() {
 
 // process search ui
 function processSearch() {
-  initialSearch()
+  initialSearch($('#search-input').data('lang'))
   // Hide search suggestions dropdown menu on focusout
   $('#search-input').focusout(function() {
     $('.ds-dropdown-menu').hide()
   })
-  // Show search suggestions dropdown menu on focus
-  $('#search-input').focus(function(e) {
+  // Show search suggestions dropdown menu on change
+  $('#search-input').change(function(e) {
     e.preventDefault()
     if (e.target && e.target.value) $('.ds-dropdown-menu').show()
   })
@@ -106,6 +107,15 @@ function toggleWeChatQRCode() {
     e.preventDefault()
     $('#wechat-mobile .qr_code_outer').toggleClass('f-hide')
   })
+
+  $('.tidb-planet-robot').click(e => {
+    e.preventDefault()
+    $('.tooltiptext').toggleClass('f-hide')
+  })
+  $('.tidb-planet-robot').on('touchstart', e => {
+    e.preventDefault()
+    $('.tooltiptext').toggleClass('f-hide')
+  })
 }
 
 function handleWindowScroll() {
@@ -130,6 +140,7 @@ function handleWindowScroll() {
 
 function processMobileOverlay() {
   $('.nav-btn.nav-slider').click(function() {
+    console.log('clicked')
     $('.overlay').show()
     $('nav').toggleClass('open')
   })
@@ -142,11 +153,57 @@ function processMobileOverlay() {
 }
 
 function tabCheckedInDocs() {
-  var contentTabID = $('input:checked').val()
+  const hash = decodeURIComponent(location.hash)
+  var contentTabID
+  if (hash) {
+    switch (hash) {
+      case '#google':
+        $('input:radio[name=tabs]')
+          .filter('[value=GoogleContent]')
+          .prop('checked', true)
+        break
+      case '#aws':
+        $('input:radio[name=tabs]')
+          .filter('[value=AWSContent]')
+          .prop('checked', true)
+        break
+      case '#local':
+        $('input:radio[name=tabs]')
+          .filter('[value=LocalContent]')
+          .prop('checked', true)
+        break
+    }
+  } else {
+    contentTabID = $('input:checked').val()
+    switch (contentTabID) {
+      case 'GoogleContent':
+        window.location.href = `./#google`
+        break
+      case 'AWSContent':
+        window.location.href = `./#aws`
+        break
+      case 'LocalContent':
+        window.location.href = `./#local`
+        break
+    }
+  }
+  contentTabID = $('input:checked').val()
+  $('section').hide()
   $('#' + contentTabID).show()
   $('input').on('click', function() {
+    contentTabID = $('input:checked').val()
+    switch (contentTabID) {
+      case 'GoogleContent':
+        window.location.href = `./#google`
+        break
+      case 'AWSContent':
+        window.location.href = `./#aws`
+        break
+      case 'LocalContent':
+        window.location.href = `./#local`
+        break
+    }
     $('section').hide()
-    var contentTabID = $('input:checked').val()
     $('#' + contentTabID).show()
   })
 }

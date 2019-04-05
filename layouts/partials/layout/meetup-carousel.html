@@ -1,0 +1,25 @@
+<div class="meetup-carousel">
+    <div class="swiper-container">
+        <div class="swiper-pagination"></div>
+        <div class="swiper-wrapper">
+            {{- range $idx, $i := .Site.Data.meetup.next_meetup -}}
+                <div class="swiper-slide">
+                    <p class="topic">{{ $i.topic }}</p>
+                    <div class="address">{{ $i.addr }}</div>
+                    <div class="meetup-date">{{ $i.date }}</div>
+                    <div>
+                        <a href="{{ if $i.review_link }}{{ $i.review_link }}{{ else }}{{ $i.signup_link }}{{ end }}">
+                            <button class="meetup-register">
+                                {{- if $i.signup_link -}}
+                                    报名加入 
+                                {{- else if and (not $i.singup_link) $i.review_link -}} 
+                                    活动回顾 
+                                {{- end -}}
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            {{- end -}}
+        </div>
+    </div>
+</div>

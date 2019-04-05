@@ -31,8 +31,9 @@
         <div class="sidebar-page sticky-sidebar">
             {{ with .Site.GetPage "page" "docs-cn/overview.md" }}
                 {{- partial "archives/improve-doc.html" (dict "repo" "docs-cn" "global" . "isCn" "true") -}}
+                {{- partial "archives/request-docs-changes.html" (dict "repo" "docs-cn" "global" . "isCn" "true" "link" .Permalink "prefixRepo" "docs-cn/") -}}
             {{ end }}
-            <!-- {{- partial "archives/download-pdf.html" (dict "isCn" "true") -}} -->
+            {{- partial "archives/download-pdf.html" (dict "isCn" "true") -}}
             <p class="toc-title">本页导航</p>
             <div id="smart_toc_wrapper"></div>
         </div>
@@ -43,4 +44,5 @@
 {{- define "footJS" -}}
     <script type="text/javascript" src="/js/vendor/lazyload.min.js"></script>
     <script type="text/javascript" src="/js/doc.js"></script>
+    <script type="text/javascript" src="/js/vendor/clipboard.min.js"></script>
 {{- end -}}

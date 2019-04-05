@@ -15,9 +15,15 @@ export default {
     about: [path.join(__dirname, 'src', 'js', 'about')],
     recruit: [path.join(__dirname, 'src', 'js', 'recruit')],
     tidb_planet: [path.join(__dirname, 'src', 'js', 'tidb_planet')],
-    tidb_planet_user: [
-      path.join(__dirname, 'src', 'js', 'tidb_planet_user'),
+    devcon: [path.join(__dirname, 'src', 'js', 'devcon')],
+    community: [path.join(__dirname, 'src', 'js', 'community')],
+    tidb_planet_user: [path.join(__dirname, 'src', 'js', 'tidb_planet_user')],
+    multi_slides_carousel: [
+      path.join(__dirname, 'src', 'js', 'multi_slides_carousel'),
     ],
+    carousel: [path.join(__dirname, 'src', 'js', 'carousel')],
+    video_on_modal: [path.join(__dirname, 'src', 'js', 'video_on_modal')],
+    carousel: [path.join(__dirname, 'src', 'js', 'carousel')],
   },
   output: {
     path: path.join(__dirname, 'static', 'js'),

@@ -7,10 +7,28 @@
 
 {{- define "main" -}}
     <div class="blog">
-        <div class="container">
+        <div class="blogArticle__container">
             {{ $posts := where (where .Site.Pages "Section" "blog") ".Params.title" "!=" nil  }}
-            {{- partial "navs/tags-nav.html" (dict "type" "single" "title" "Popular Tags" "posts" $posts "rss" "/blog/index.xml" "global" .) -}}
             <div class="archive">
+                {{- if (isset .Params "categories") -}}
+                    {{- range $idx, $i := .Params.categories -}}
+                        <div class="article-nav">
+                            <a href="/blog/#{{ replace $i " " "-"}}">BLOG HOME</a> <span> > </span>{{- $i -}}
+                        </div>
+                    {{- end -}}
+                {{- else -}}
+                    <div class="article-nav">
+                        <a href="/blog">BLOG HOME</a>
+                    </div>
+                {{- end -}}
+                <!-- <div class="article-head-img">
+                    {{- if .Params.image}}
+                    {{ $landingImg := .Params.image}}
+                        <img class="lazy" src="{{- $landingImg -}}" />
+                    {{- else -}}
+                        <img class="lazy"src="/images/blog-article/default.png" />
+                    {{- end -}}
+                </div> -->
                 <div class="content markdown-body">
                     <h1 class="title">{{ .Title }}</h1>
                     <ul class="blog-post-meta">
@@ -33,6 +51,7 @@
                     </ul>
                     <div class="blog-text">{{- .Content -}}</div>
                 </div>
+                <!-- {{- partial "archives/subscription.html" . -}} -->
                 {{- partial "archives/post-share.html" . -}}
             </div>
         </div>
@@ -42,5 +61,6 @@
 {{- define "footJS" -}}
     <script type="text/javascript" src="/js/vendor/lazyload.min.js"></script>
     <script type="text/javascript" src="/js/doc.js"></script>
+    <script type="text/javascript" src="/js/vendor/clipboard.min.js"></script>
 {{- end -}}
 
